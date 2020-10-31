@@ -1,3 +1,8 @@
+// TODO:
+// i guess i should've read the gulp 3->4 migration docs,
+// still a couple of bugs here.
+// run firefox:css:libs, don't clean, then gulp, then gulp dist
+
 const gulp = require('gulp')
 const gutil = require('gulp-util')
 const fs = require('fs')
@@ -18,7 +23,9 @@ const concat = require('gulp-concat')
 const zip = require('gulp-zip')
 const cssmin = require('gulp-cssmin')
 
-gulp.task('clean', () => gulp.src('./tmp', { allowEmpty: true }).pipe(clean()))
+gulp.task('clean', async () =>
+  gulp.src('./tmp', { allowEmpty: true }).pipe(clean())
+)
 
 gulp.task('css', () =>
   pipe(
@@ -253,14 +260,16 @@ function getVersion() {
 }
 
 gulp.task(
-  'default',
+  'build',
   gulp.series(['clean', 'css', 'wex', 'chrome', 'opera', 'firefox'])
 )
 
 gulp.task(
   'dist',
-  gulp.series(['default', 'chrome:zip', 'opera:nex', 'firefox:zip'])
+  gulp.series(['build', 'chrome:zip', 'opera:nex', 'firefox:zip'])
 )
+
+gulp.task('default', gulp.series(['build']))
 
 module.exports = {
   pipe,

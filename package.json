@@ -6,14 +6,14 @@
   "author": "Buu Nguyen <buunguyen@gmail.com> (https://github.com/buunguyen)",
   "license": "AGPL",
   "scripts": {
-    "build": "gulp build",
+    "build": "gulp",
     "dist": "gulp dist --production",
     "format": "sortpack && prettier --write \"src/**/*.js\" *.js",
     "prebuild": "npm t",
     "preversion": "npm run build",
     "test": "run-s test:lint test:unit",
     "test:lint": "eslint -c .eslintrc.json src *.js",
-    "test:unit": "echo TODO"
+    "test:unit": "echo WRITE SOME TESTS"
   },
   "homepage": "https://github.com/zacanger/octotree",
   "repository": {
