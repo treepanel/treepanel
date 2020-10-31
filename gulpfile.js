@@ -6,30 +6,26 @@ const path = require('path')
 const { merge } = require('event-stream')
 const map = require('map-stream')
 const { spawn } = require('child_process')
-const $ = require('gulp-load-plugins')()
 const uglify = require('gulp-uglify-es').default
+const clean = require('gulp-clean')
+const plumber = require('gulp-plumber')
+const autoprefixer = require('gulp-autoprefixer')
+const less = require('gulp-less')
+const replace = require('gulp-replace')
+const preprocess = require('gulp-preprocess')
+const wrap = require('gulp-wrap')
+const concat = require('gulp-concat')
+const zip = require('gulp-zip')
+const cssmin = require('gulp-cssmin')
 
-// Shared
-gulp.task('clean', () => pipe('./tmp', $.clean()))
-
-gulp.task('build', (cb) => {
-  $.runSequence('clean', 'css', 'wex', 'chrome', 'opera', 'firefox', cb)
-})
-
-gulp.task('default', ['build'], () => {
-  gulp.watch(['./libs/**/*', './src/**/*', './package.json'], ['default'])
-})
-
-gulp.task('dist', ['build'], (cb) => {
-  $.runSequence('chrome:zip', 'opera:nex', 'firefox:zip', cb)
-})
+gulp.task('clean', () => gulp.src('./tmp', { allowEmpty: true }).pipe(clean()))
 
 gulp.task('css', () =>
   pipe(
     './src/styles/octotree.less',
-    $.plumber(),
-    $.less({ relativeUrls: true }),
-    $.autoprefixer({ cascade: true }),
+    plumber(),
+    less({ relativeUrls: true }),
+    autoprefixer({ cascade: true }),
     './tmp'
   )
 )
@@ -51,56 +47,77 @@ gulp.task('lib:ondemand', (cb) => {
 
 // WebExtensions
 gulp.task('wex:template', () => buildTemplate())
-gulp.task('wex:js:ext', ['wex:template', 'lib:ondemand'], () => buildJs())
+gulp.task(
+  'wex:js:ext',
+  gulp.series(['wex:template', 'lib:ondemand'], () => buildJs())
+)
 
-gulp.task('wex:js', ['wex:js:ext'], () => {
-  const src = [
-    './libs/file-icons.js',
-    './libs/jquery.js',
-    './libs/jquery-ui.js',
-    './libs/jstree.js',
-    './libs/keymaster.js',
-    './tmp/ondemand.js',
-    './tmp/octotree.js',
-  ]
-  return pipe(
-    src,
-    $.wrap('(function(){\n<%= contents %>\n})();'),
-    $.concat('content.js'),
-    gutil.env.production && uglify(),
-    './tmp'
-  )
-})
+gulp.task(
+  'wex:js',
+  gulp.series(['wex:js:ext'], () => {
+    const src = [
+      './libs/file-icons.js',
+      './libs/jquery.js',
+      './libs/jquery-ui.js',
+      './libs/jstree.js',
+      './libs/keymaster.js',
+      './tmp/ondemand.js',
+      './tmp/octotree.js',
+    ]
+    return pipe(
+      src,
+      wrap('(function(){\n<%= contents %>\n})();'),
+      concat('content.js'),
+      gutil.env.production && uglify(),
+      './tmp'
+    )
+  })
+)
 
-gulp.task('wex', ['wex:js'])
+gulp.task('wex', gulp.series(['wex:js']))
 
 // Firefox
 gulp.task('firefox:css:libs', () =>
   buildCssLibs('.', 'moz-extension://__MSG_@@extension_id__/')
 )
-gulp.task('firefox:css', ['firefox:css:libs'], () => buildCss())
-gulp.task('firefox', ['firefox:css'], () => prepareWexFolder('firefox'))
+gulp.task(
+  'firefox:css',
+  gulp.series(['firefox:css:libs'], () => buildCss())
+)
+gulp.task(
+  'firefox',
+  gulp.series(['firefox:css'], () => prepareWexFolder('firefox'))
+)
 
 gulp.task('firefox:zip', () =>
-  pipe('./tmp/firefox/**/*', $.zip('firefox.zip'), './dist')
+  pipe('./tmp/firefox/**/*', zip('firefox.zip'), './dist')
 )
 
 // Chrome
 gulp.task('chrome:css:libs', () =>
   buildCssLibs('.', 'chrome-extension://__MSG_@@extension_id__/')
 )
-gulp.task('chrome:css', ['chrome:css:libs'], () => buildCss())
-gulp.task('chrome', ['chrome:css'], () => prepareWexFolder('chrome'))
+gulp.task(
+  'chrome:css',
+  gulp.series(['chrome:css:libs'], () => buildCss())
+)
+gulp.task(
+  'chrome',
+  gulp.series(['chrome:css'], () => prepareWexFolder('chrome'))
+)
 
 gulp.task('chrome:zip', () =>
-  pipe('./tmp/chrome/**/*', $.zip('chrome.zip'), './dist')
+  pipe('./tmp/chrome/**/*', zip('chrome.zip'), './dist')
 )
 
 // Opera
-gulp.task('opera', ['chrome'], () => pipe('./tmp/chrome/**/*', './tmp/opera'))
+gulp.task(
+  'opera',
+  gulp.series(['chrome'], () => pipe('./tmp/chrome/**/*', './tmp/opera'))
+)
 
 gulp.task('opera:nex', () =>
-  pipe('./tmp/opera/**/*', $.zip('opera.nex'), './dist')
+  pipe('./tmp/opera/**/*', zip('opera.nex'), './dist')
 )
 
 // Helpers
@@ -123,7 +140,7 @@ function html2js(template) {
   return map(escape)
 
   function escape(file, cb) {
-    const path = $.util.replaceExtension(file.path, '.js')
+    const path = gutil.replaceExtension(file.path, '.js')
     const content = file.contents.toString()
     /* eslint-disable quotes */
     const escaped = content
@@ -161,26 +178,21 @@ function buildJs(prefix = '.', ctx = {}) {
     `${prefix}/src/main.js`,
   ]
 
-  return pipe(
-    src,
-    $.preprocess({ context: ctx }),
-    $.concat('octotree.js'),
-    './tmp'
-  )
+  return pipe(src, preprocess({ context: ctx }), concat('octotree.js'), './tmp')
 }
 
 function buildCssLibs(prefix = '.', targetPrefix = '') {
   return merge(
     pipe(
       `${prefix}/libs/file-icons.css`,
-      $.replace('../fonts', `${targetPrefix}fonts`),
+      replace('../fonts', `${targetPrefix}fonts`),
       './tmp'
     ),
     pipe(
       `${prefix}/libs/jstree.css`,
-      $.replace('url("32px.png")', `url("${targetPrefix}images/32px.png")`),
-      $.replace('url("40px.png")', `url("${targetPrefix}images/40px.png")`),
-      $.replace(
+      replace('url("32px.png")', `url("${targetPrefix}images/32px.png")`),
+      replace('url("40px.png")', `url("${targetPrefix}images/40px.png")`),
+      replace(
         'url("throbber.gif")',
         `url("${targetPrefix}images/throbber.gif")`
       ),
@@ -196,8 +208,8 @@ function buildCss(prefix = '.') {
       `${prefix}/tmp/jstree.css`,
       `${prefix}/tmp/octotree.css`,
     ],
-    $.concat('content.css'),
-    gutil.env.production && $.cssmin(),
+    concat('content.css'),
+    gutil.env.production && cssmin(),
     './tmp'
   )
 }
@@ -207,8 +219,8 @@ function buildTemplate(prefix = '.', ctx = {}) {
 
   return pipe(
     `${prefix}/src/template.html`,
-    $.preprocess({ context: ctx }),
-    $.replace('__SPACES__', LOTS_OF_SPACES),
+    preprocess({ context: ctx }),
+    replace('__SPACES__', LOTS_OF_SPACES),
     html2js("const TEMPLATE = '$$'"),
     './tmp'
   )
@@ -222,13 +234,13 @@ function prepareWexFolder(browser) {
     pipe('./tmp/content.*', `./tmp/${browser}`),
     pipe(
       './src/config/wex/manifest.json',
-      $.preprocess({ context: { browser } }),
-      $.replace('$VERSION', getVersion()),
+      preprocess({ context: { browser } }),
+      replace('$VERSION', getVersion()),
       `./tmp/${browser}`
     ),
     pipe(
       './src/config/wex/background.js',
-      $.preprocess({ context: { browser } }),
+      preprocess({ context: { browser } }),
       gutil.env.production && uglify(),
       `./tmp/${browser}`
     )
@@ -239,6 +251,16 @@ function getVersion() {
   delete require.cache[require.resolve('./package.json')]
   return require('./package.json').version
 }
+
+gulp.task(
+  'default',
+  gulp.series(['clean', 'css', 'wex', 'chrome', 'opera', 'firefox'])
+)
+
+gulp.task(
+  'dist',
+  gulp.series(['default', 'chrome:zip', 'opera:nex', 'firefox:zip'])
+)
 
 module.exports = {
   pipe,
