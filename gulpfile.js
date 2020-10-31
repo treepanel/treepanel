@@ -1,8 +1,3 @@
-// TODO:
-// i guess i should've read the gulp 3->4 migration docs,
-// still a couple of bugs here.
-// run firefox:css:libs, don't clean, then gulp, then gulp dist
-
 const gulp = require('gulp')
 const gutil = require('gulp-util')
 const fs = require('fs')

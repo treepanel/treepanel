@@ -4,4 +4,4 @@
 
 # Actual behavior:
 
-# Environment info (relevant browser, OS, etc.; run `npx envinfo`):
+# Relevant environment info (browser, OS, Node version, etc.):
