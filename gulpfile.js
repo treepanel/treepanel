@@ -77,46 +77,46 @@ gulp.task(
 gulp.task('wex', gulp.series(['wex:js']))
 
 // Firefox
-gulp.task('firefox:css:libs', () =>
+gulp.task('firefox:css:libs', async () =>
   buildCssLibs('.', 'moz-extension://__MSG_@@extension_id__/')
 )
 gulp.task(
   'firefox:css',
-  gulp.series(['firefox:css:libs'], () => buildCss())
+  gulp.series(['firefox:css:libs'], async () => buildCss())
 )
 gulp.task(
   'firefox',
-  gulp.series(['firefox:css'], () => prepareWexFolder('firefox'))
+  gulp.series(['firefox:css'], async () => prepareWexFolder('firefox'))
 )
 
-gulp.task('firefox:zip', () =>
+gulp.task('firefox:zip', async () =>
   pipe('./tmp/firefox/**/*', zip('firefox.zip'), './dist')
 )
 
 // Chrome
-gulp.task('chrome:css:libs', () =>
+gulp.task('chrome:css:libs', async () =>
   buildCssLibs('.', 'chrome-extension://__MSG_@@extension_id__/')
 )
 gulp.task(
   'chrome:css',
-  gulp.series(['chrome:css:libs'], () => buildCss())
+  gulp.series(['chrome:css:libs'], async () => buildCss())
 )
 gulp.task(
   'chrome',
-  gulp.series(['chrome:css'], () => prepareWexFolder('chrome'))
+  gulp.series(['chrome:css'], async () => prepareWexFolder('chrome'))
 )
 
-gulp.task('chrome:zip', () =>
+gulp.task('chrome:zip', async () =>
   pipe('./tmp/chrome/**/*', zip('chrome.zip'), './dist')
 )
 
 // Opera
 gulp.task(
   'opera',
-  gulp.series(['chrome'], () => pipe('./tmp/chrome/**/*', './tmp/opera'))
+  gulp.series(['chrome'], async () => pipe('./tmp/chrome/**/*', './tmp/opera'))
 )
 
-gulp.task('opera:nex', () =>
+gulp.task('opera:nex', async () =>
   pipe('./tmp/opera/**/*', zip('opera.nex'), './dist')
 )
 
