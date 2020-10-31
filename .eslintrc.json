@@ -5,7 +5,6 @@
   ],
   "extends": [
     "plugin:zacanger/recommended",
-    "plugin:zacanger/node",
     "plugin:zacanger/prettier"
   ],
   "rules": {
@@ -29,11 +28,6 @@
     "no-unused-vars": 0,
     "no-use-before-define": 0,
     "no-useless-escape": 0,
-    "node/no-callback-literal": 0,
-    "node/no-unpublished-require": 0,
-    "node/prefer-global/buffer": 0,
-    "radix": 0,
-    "unicorn/filename-case": 0,
     "unicorn/no-keyword-prefix": 0,
     "unicorn/no-unsafe-regex": 0
   }
