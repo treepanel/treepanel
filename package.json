@@ -20,7 +20,7 @@
   "homepage": "https://github.com/ovity/octotree",
   "devDependencies": {
     "async": "0.9.0",
-    "chromedriver": "2.21.2",
+    "chromedriver": "2.26.1",
     "crx": "0.4.4",
     "eslint": "5.7.0",
     "event-stream": "3.3.4",
@@ -52,6 +52,6 @@
     "starx": "0.1.8",
     "stream-series": "0.1.1",
     "underscore": "1.11.0",
-    "underscore.string": "2.4.0"
+    "underscore.string": "3.3.5"
   }
 }
