@@ -1,3 +1,10 @@
+Forked from https://github.com/ovity/octotree so that community development can
+continue under the original license. See
+https://web.archive.org/web/20201031182128/https://github.com/ovity/octotree/issues/1040
+for details.
+
+----
+
 ## About
 
 Browser extension that enhances GitHub code review and exploration. This repository contains the source code of a limited version of Octotree. You can download the full-featured version for your browser from [our website](https://www.octotree.io). Octotree supports Chrome, Firefox, Edge, Opera and Safari.
