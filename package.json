@@ -1,5 +1,6 @@
 {
   "name": "octotree",
+  "private": true,
   "description": "GitHub on steroids",
   "version": "3.0.10",
   "author": "Buu Nguyen <buunguyen@gmail.com> (https://github.com/buunguyen)",
