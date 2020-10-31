@@ -36,84 +36,89 @@ const GH_RESERVED_USER_NAMES = [
   'trending',
   'users',
   'watching',
-];
-const GH_RESERVED_REPO_NAMES = ['followers', 'following', 'repositories'];
-const GH_404_SEL = '#parallax_wrapper';
-const GH_RAW_CONTENT = 'body > pre';
+]
+const GH_RESERVED_REPO_NAMES = ['followers', 'following', 'repositories']
+const GH_404_SEL = '#parallax_wrapper'
+const GH_RAW_CONTENT = 'body > pre'
 
 class OctotreeService {
   constructor() {
-    this.reset();
+    this.reset()
   }
 
   // Hooks
   activate(inputs, opts) {}
 
   applyOptions(opts) {
-    return false;
+    return false
   }
 
   // Public
   load(loadFn) {
-    loadFn();
+    loadFn()
   }
 
   reset() {
-    this.getAccessToken = this._getAccessToken;
-    this.shouldShowOctotree = this._shouldShowOctotree;
-    this.getInvalidTokenMessage = this._getInvalidTokenMessage;
-    this.setNodeIconAndText = this._setNodeIconAndText;
+    this.getAccessToken = this._getAccessToken
+    this.shouldShowOctotree = this._shouldShowOctotree
+    this.getInvalidTokenMessage = this._getInvalidTokenMessage
+    this.setNodeIconAndText = this._setNodeIconAndText
   }
 
   // Private
   _getAccessToken() {
-    return window.extStore.get(window.STORE.TOKEN);
+    return window.extStore.get(window.STORE.TOKEN)
   }
 
-  _getInvalidTokenMessage({responseStatus, requestHeaders}) {
+  _getInvalidTokenMessage({ responseStatus, requestHeaders }) {
     return (
       'The GitHub access token is invalid. ' +
       'Please go to <a class="settings-btn">Settings</a> and update the token.'
-    );
+    )
   }
 
   async _setNodeIconAndText(context, item) {
     if (item.type === 'blob') {
       if (await extStore.get(STORE.ICONS)) {
-        const className = FileIcons.getClassWithColor(item.text);
-        item.icon += ' ' + (className || 'file-generic');
+        const className = FileIcons.getClassWithColor(item.text)
+        item.icon += ' ' + (className || 'file-generic')
       } else {
-        item.icon += ' file-generic';
+        item.icon += ' file-generic'
       }
     }
   }
 
   async _shouldShowOctotree() {
     if ($(GH_404_SEL).length) {
-      return false;
+      return false
     }
 
     // Skip raw page
     if ($(GH_RAW_CONTENT).length) {
-      return false;
+      return false
     }
 
     // (username)/(reponame)[/(type)][/(typeId)]
-    const match = window.location.pathname.match(/([^\/]+)\/([^\/]+)(?:\/([^\/]+))?(?:\/([^\/]+))?/);
+    const match = window.location.pathname.match(
+      /([^/]+)\/([^/]+)(?:\/([^/]+))?(?:\/([^/]+))?/
+    )
     if (!match) {
-      return false;
+      return false
     }
 
-    const username = match[1];
-    const reponame = match[2];
+    const username = match[1]
+    const reponame = match[2]
 
     // Not a repository, skip
-    if (~GH_RESERVED_USER_NAMES.indexOf(username) || ~GH_RESERVED_REPO_NAMES.indexOf(reponame)) {
-      return false;
+    if (
+      ~GH_RESERVED_USER_NAMES.indexOf(username) ||
+      ~GH_RESERVED_REPO_NAMES.indexOf(reponame)
+    ) {
+      return false
     }
 
-    return true;
+    return true
   }
 }
 
-window.octotree = new OctotreeService();
+window.octotree = new OctotreeService()

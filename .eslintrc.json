@@ -1,0 +1,40 @@
+{
+  "root": true,
+  "plugins": [
+    "zacanger"
+  ],
+  "extends": [
+    "plugin:zacanger/recommended",
+    "plugin:zacanger/node",
+    "plugin:zacanger/prettier"
+  ],
+  "rules": {
+    "camelcase": 0,
+    "default-case": 0,
+    "fp/no-class": 0,
+    "fp/no-delete": 0,
+    "fp/no-let": 0,
+    "fp/no-loops": 0,
+    "fp/no-mutating-methods": 0,
+    "fp/no-mutation": 0,
+    "fp/no-nil": 0,
+    "fp/no-this": 0,
+    "fp/no-unused-expression": 0,
+    "func-style": 0,
+    "max-statements": 0,
+    "no-cond-assign": 0,
+    "no-console": 0,
+    "no-loop-func": 0,
+    "no-undef": 0,
+    "no-unused-vars": 0,
+    "no-use-before-define": 0,
+    "no-useless-escape": 0,
+    "node/no-callback-literal": 0,
+    "node/no-unpublished-require": 0,
+    "node/prefer-global/buffer": 0,
+    "radix": 0,
+    "unicorn/filename-case": 0,
+    "unicorn/no-keyword-prefix": 0,
+    "unicorn/no-unsafe-regex": 0
+  }
+}

@@ -1,7 +1,7 @@
-let $dummyDiv;
+let $dummyDiv
 
 window.deXss = (str) => {
-  $dummyDiv = $dummyDiv || $('<div></div>');
+  $dummyDiv = $dummyDiv || $('<div></div>')
 
-  return $dummyDiv.text(str).html();
+  return $dummyDiv.text(str).html()
 }
