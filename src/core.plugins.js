@@ -18,7 +18,7 @@ class Plugin {
    * @return {!Promise<undefined>}
    */
   async activate(opts, payload) {
-    return undefined;
+    return
   }
 
   /**
@@ -29,7 +29,7 @@ class Plugin {
    * }} payload
    */
   async deactivate(payload) {
-    return undefined;
+    return
   }
 
   /**
@@ -38,8 +38,8 @@ class Plugin {
    * @return {!Promise<boolean>} iff the tree should be reloaded.
    */
   async applyOptions(changes) {
-    return false;
+    return false
   }
 }
 
-window.Plugin = Plugin;
+window.Plugin = Plugin

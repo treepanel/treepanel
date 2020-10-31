@@ -1,7 +1,7 @@
-const NODE_PREFIX = 'octotree';
-const ADDON_CLASS = 'octotree';
-const SHOW_CLASS = 'octotree-show';
-const PINNED_CLASS = 'octotree-pinned';
+const NODE_PREFIX = 'octotree'
+const ADDON_CLASS = 'octotree'
+const SHOW_CLASS = 'octotree-show'
+const PINNED_CLASS = 'octotree-pinned'
 
 const STORE = {
   TOKEN: 'octotree.token.local',
@@ -14,8 +14,8 @@ const STORE = {
   WIDTH: 'octotree.sidebar_width',
   SHOWN: 'octotree.sidebar_shown',
   PINNED: 'octotree.sidebar_pinned',
-  HUGE_REPOS: 'octotree.huge_repos'
-};
+  HUGE_REPOS: 'octotree.huge_repos',
+}
 
 const DEFAULTS = {
   TOKEN: '',
@@ -28,8 +28,8 @@ const DEFAULTS = {
   WIDTH: 232,
   SHOWN: false,
   PINNED: false,
-  HUGE_REPOS: {}
-};
+  HUGE_REPOS: {},
+}
 
 const EVENT = {
   TOGGLE: 'octotree:toggle',
@@ -44,9 +44,9 @@ const EVENT = {
   VIEW_SHOW: 'octotree:show',
   FETCH_ERROR: 'octotree:error',
   SIDEBAR_HTML_INSERTED: 'octotree:sidebarHtmlInserted',
-  REPO_LOADED: 'octotree:repoLoaded'
-};
+  REPO_LOADED: 'octotree:repoLoaded',
+}
 
-window.STORE = STORE;
-window.DEFAULTS = DEFAULTS;
-window.EVENT = EVENT;
+window.STORE = STORE
+window.DEFAULTS = DEFAULTS
+window.EVENT = EVENT

@@ -1,28 +1,32 @@
 {
   "name": "octotree",
-  "version": "3.0.10",
   "description": "GitHub on steroids",
-  "scripts": {
-    "start": "gulp",
-    "watch": "gulp",
-    "build": "gulp build",
-    "dist": "gulp dist --production"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ovity/octotree"
-  },
+  "version": "3.0.10",
   "author": "Buu Nguyen <buunguyen@gmail.com> (https://github.com/buunguyen)",
   "license": "AGPL",
-  "bugs": {
-    "url": "https://github.com/ovity/octotree/issues"
+  "scripts": {
+    "build": "gulp build",
+    "dist": "gulp dist --production",
+    "format": "sortpack && prettier --write \"src/**/*.js\" *.js",
+    "start": "gulp",
+    "test": "run-s  test:lint",
+    "test:lint": "eslint -c .eslintrc.json src *.js",
+    "watch": "gulp"
   },
-  "homepage": "https://github.com/ovity/octotree",
+  "homepage": "https://github.com/zacanger/octotree",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zacanger/octotree"
+  },
+  "bugs": {
+    "url": "https://github.com/zacanger/octotree/issues"
+  },
   "devDependencies": {
     "async": "0.9.0",
     "chromedriver": "2.26.1",
     "crx": "0.4.4",
-    "eslint": "5.7.0",
+    "eslint": "7.12.1",
+    "eslint-plugin-zacanger": "2.1.3",
     "event-stream": "3.3.4",
     "firefox-profile": "0.3.6",
     "gulp": "3.9.1",
@@ -48,7 +52,9 @@
     "jpm": "1.0.4",
     "map-stream": "0.0.7",
     "mocha": "2.0.1",
+    "prettier": "2.1.2",
     "request": "2.88.0",
+    "sortpack": "2.1.9",
     "starx": "0.1.8",
     "stream-series": "0.1.1",
     "underscore": "1.11.0",
