@@ -19,8 +19,10 @@ const zip = require('gulp-zip')
 const cssmin = require('gulp-cssmin')
 const { version: pkgVersion } = require('./package.json')
 
-gulp.task('clean', async () =>
-  gulp.src('./tmp', { allowEmpty: true }).pipe(clean())
+gulp.task(
+  'clean',
+  async () => undefined
+  // gulp.src('./tmp', { allowEmpty: true }).pipe(clean())
 )
 
 gulp.task('css', () =>
@@ -49,10 +51,9 @@ gulp.task('lib:ondemand', (cb) => {
 })
 
 // WebExtensions
-gulp.task('wex:template', () => buildTemplate())
 gulp.task(
   'wex:js:ext',
-  gulp.series(['wex:template', 'lib:ondemand'], () => buildJs())
+  gulp.series(['lib:ondemand'], () => buildJs())
 )
 
 gulp.task(
@@ -139,25 +140,9 @@ function pipe(src, ...transforms) {
   return work
 }
 
-function html2js(template) {
-  return map(escape)
-
-  function escape(file, cb) {
-    const path = gutil.replaceExtension(file.path, '.js')
-    const content = file.contents.toString()
-
-    const escaped = content
-    const body = template.replace('$$', escaped)
-
-    file.path = path
-    file.contents = Buffer.from(body)
-    cb(null, file)
-  }
-}
-
 function buildJs(prefix = '.', ctx = {}) {
   const src = [
-    `${prefix}/tmp/template.js`,
+    `${prefix}/src/template.js`,
     `${prefix}/src/util.module.js`,
     `${prefix}/src/util.async.js`,
     `${prefix}/src/util.misc.js`,
@@ -209,15 +194,6 @@ function buildCss(prefix = '.') {
     ],
     concat('content.css'),
     gutil.env.production && cssmin(),
-    './tmp'
-  )
-}
-
-function buildTemplate(prefix = '.', ctx = {}) {
-  return pipe(
-    `${prefix}/src/template.html`,
-    preprocess({ context: ctx }),
-    html2js('const TEMPLATE = `$$`'),
     './tmp'
   )
 }

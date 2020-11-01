@@ -1,3 +1,4 @@
+const TEMPLATE = `
 <div>
   <nav class="octotree-sidebar">
     <div class="octotree-toggle">
@@ -40,12 +41,9 @@
           <div>
             <label>GitHub access token</label>
             <div class="octotree-token-actions">
-              <a class="octotree-create-token" target="_blank" tabindex="-1"
-                ><!--
-                --><span class="tooltipped tooltipped-n" aria-label="Generate new token"
-                  ><i class="octotree-icon-key"></i></span
-                ><!--
-              --></a>
+              <a class="octotree-create-token" target="_blank" tabindex="-1">
+                <span class="tooltipped tooltipped-n" aria-label="Generate new token"><i class="octotree-icon-key"></i></span>
+              </a>
               <a
                 class="octotree-help"
                 href="https://github.com/ovity/octotree#access-token"
@@ -104,3 +102,4 @@
     <div class="octotree-footer"></div>
   </nav>
 </div>
+`
