@@ -1,8 +1,9 @@
-const gulp = require('gulp')
-const gutil = require('gulp-util')
 const fs = require('fs')
 const os = require('os')
 const path = require('path')
+
+const gulp = require('gulp')
+const gutil = require('gulp-util')
 const { merge } = require('event-stream')
 const map = require('map-stream')
 const { spawn } = require('child_process')
@@ -17,12 +18,11 @@ const wrap = require('gulp-wrap')
 const concat = require('gulp-concat')
 const zip = require('gulp-zip')
 const cssmin = require('gulp-cssmin')
+
 const { version: pkgVersion } = require('./package.json')
 
-gulp.task(
-  'clean',
-  async () => undefined
-  // gulp.src('./tmp', { allowEmpty: true }).pipe(clean())
+gulp.task('clean', async () =>
+  gulp.src('./tmp', { allowEmpty: true }).pipe(clean())
 )
 
 gulp.task('css', () =>
