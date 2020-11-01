@@ -17,6 +17,7 @@ const wrap = require('gulp-wrap')
 const concat = require('gulp-concat')
 const zip = require('gulp-zip')
 const cssmin = require('gulp-cssmin')
+const { version: pkgVersion } = require('./package.json')
 
 gulp.task('clean', async () =>
   gulp.src('./tmp', { allowEmpty: true }).pipe(clean())
@@ -144,12 +145,8 @@ function html2js(template) {
   function escape(file, cb) {
     const path = gutil.replaceExtension(file.path, '.js')
     const content = file.contents.toString()
-    /* eslint-disable quotes */
+
     const escaped = content
-      .replace(/\\/g, '\\\\')
-      .replace(/'/g, "\\'")
-      .replace(/\r?\n/g, "\\n' +\n    '")
-    /* eslint-enable */
     const body = template.replace('$$', escaped)
 
     file.path = path
@@ -217,13 +214,10 @@ function buildCss(prefix = '.') {
 }
 
 function buildTemplate(prefix = '.', ctx = {}) {
-  const LOTS_OF_SPACES = new Array(500).join(' ')
-
   return pipe(
     `${prefix}/src/template.html`,
     preprocess({ context: ctx }),
-    replace('__SPACES__', LOTS_OF_SPACES),
-    html2js("const TEMPLATE = '$$'"),
+    html2js('const TEMPLATE = `$$`'),
     './tmp'
   )
 }
@@ -237,7 +231,7 @@ function prepareWexFolder(browser) {
     pipe(
       './src/config/wex/manifest.json',
       preprocess({ context: { browser } }),
-      replace('$VERSION', getVersion()),
+      replace('$VERSION', pkgVersion),
       `./tmp/${browser}`
     ),
     pipe(
@@ -247,11 +241,6 @@ function prepareWexFolder(browser) {
       `./tmp/${browser}`
     )
   )
-}
-
-function getVersion() {
-  delete require.cache[require.resolve('./package.json')]
-  return require('./package.json').version
 }
 
 gulp.task(
@@ -265,11 +254,3 @@ gulp.task(
 )
 
 gulp.task('default', gulp.series(['build']))
-
-module.exports = {
-  pipe,
-  buildTemplate,
-  buildJs,
-  buildCssLibs,
-  buildCss,
-}
