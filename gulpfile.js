@@ -27,7 +27,7 @@ gulp.task('clean', async () =>
 
 gulp.task('css', () =>
   pipe(
-    './src/styles/octotree.less',
+    './src/styles/treepanel.less',
     plumber(),
     less({ relativeUrls: true }),
     autoprefixer({ cascade: true }),
@@ -66,7 +66,7 @@ gulp.task(
       './libs/jstree.js',
       './libs/keymaster.js',
       './tmp/ondemand.js',
-      './tmp/octotree.js',
+      './tmp/treepanel.js',
     ]
     return pipe(
       src,
@@ -162,7 +162,12 @@ function buildJs(prefix = '.', ctx = {}) {
     `${prefix}/src/main.js`,
   ]
 
-  return pipe(src, preprocess({ context: ctx }), concat('octotree.js'), './tmp')
+  return pipe(
+    src,
+    preprocess({ context: ctx }),
+    concat('treepanel.js'),
+    './tmp'
+  )
 }
 
 function buildCssLibs(prefix = '.', targetPrefix = '') {
@@ -190,7 +195,7 @@ function buildCss(prefix = '.') {
     [
       `${prefix}/tmp/file-icons.css`,
       `${prefix}/tmp/jstree.css`,
-      `${prefix}/tmp/octotree.css`,
+      `${prefix}/tmp/treepanel.css`,
     ],
     concat('content.css'),
     gutil.env.production && cssmin(),

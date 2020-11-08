@@ -1,9 +1,9 @@
 class TreeView {
   constructor($dom, adapter) {
     this.adapter = adapter
-    this.$view = $dom.find('.octotree-tree-view')
+    this.$view = $dom.find('.treepanel-tree-view')
     this.$tree = this.$view
-      .find('.octotree-view-body')
+      .find('.treepanel-view-body')
       .on('click.jstree', '.jstree-open>a', ({ target }) => {
         setTimeout(() => this.$jstree.close_node(target))
       })
@@ -75,18 +75,18 @@ class TreeView {
     const adapter = this.adapter
 
     this.$view
-      .find('.octotree-view-header')
+      .find('.treepanel-view-header')
       .html(
-        `<div class="octotree-header-summary">
-          <div class="octotree-header-repo">
-            <i class="octotree-icon-repo"></i>
+        `<div class="treepanel-header-summary">
+          <div class="treepanel-header-repo">
+            <i class="treepanel-icon-repo"></i>
             <a href="/${repo.username}">${repo.username}</a> /
             <a data-pjax href="/${repo.username}/${repo.reponame}">${
           repo.reponame
         }</a>
           </div>
-          <div class="octotree-header-branch">
-            <i class="octotree-icon-branch"></i>
+          <div class="treepanel-header-branch">
+            <i class="treepanel-icon-branch"></i>
             ${deXss((repo.displayBranch || repo.branch).toString())}
           </div>
         </div>`
@@ -130,7 +130,7 @@ class TreeView {
 
     $target = $target.is('a.jstree-anchor') ? $target : $target.parent()
 
-    if ($target.is('.octotree-patch')) {
+    if ($target.is('.treepanel-patch')) {
       $target = $target.parent()
     }
 

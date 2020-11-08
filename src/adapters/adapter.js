@@ -75,10 +75,10 @@ class Adapter {
             // Uses `type` as class name for tree node
             item.icon = type
 
-            await octotree.setNodeIconAndText(this, item)
+            await treepanel.setNodeIconAndText(this, item)
 
             if (item.patch) {
-              item.text += `<span class="octotree-patch">${this.buildPatchHtml(
+              item.text += `<span class="treepanel-patch">${this.buildPatchHtml(
                 item
               )}</span>`
             }
@@ -174,7 +174,7 @@ class Adapter {
         break
       case 401:
         error = 'Invalid token'
-        message = await octotree.getInvalidTokenMessage({
+        message = await treepanel.getInvalidTokenMessage({
           responseStatus: jqXHR.status,
           requestHeaders: settings.headers,
         })
@@ -191,7 +191,7 @@ class Adapter {
           error = 'API limit exceeded'
           message =
             'You have exceeded the <a href="https://developer.github.com/v3/#rate-limiting">GitHub API rate limit</a>. ' +
-            'To continue using Octotree, you need to provide a GitHub access token. ' +
+            'To continue using TreePanel, you need to provide a GitHub access token. ' +
             'Please go to <a class="settings-btn">Settings</a> and enter a token.'
         } else {
           error = 'Forbidden'
@@ -215,7 +215,7 @@ class Adapter {
   }
 
   /**
-   * Returns the CSS class to be added to the Octotree sidebar.
+   * Returns the CSS class to be added to the TreePanel sidebar.
    * @api public
    */
   getCssClass() {
@@ -360,7 +360,7 @@ class Adapter {
         ? `<span class="text-red" title="${previous}">removed</span>`
         : ''
     patch += files
-      ? `<span class='octotree-patch-files'>${files} ${
+      ? `<span class='treepanel-patch-files'>${files} ${
           files === 1 ? 'file' : 'files'
         }</span>`
       : ''
@@ -440,15 +440,15 @@ class Adapter {
 
           /**
            * Using a_attr rather than item.text to concat in order to
-           * avoid the duplication of <div class="octotree-patch">
+           * avoid the duplication of <div class="treepanel-patch">
            *
            * For example:
            *
            * - item.text + onlyChild.text
-           * 'src/adapters/<span class="octotree-patch">+1</span>' + 'github.js<span class="octotree-patch">+1</span>'
+           * 'src/adapters/<span class="treepanel-patch">+1</span>' + 'github.js<span class="treepanel-patch">+1</span>'
            *
            * - path + onlyChild.text
-           * 'src/adapters/' + 'github.js<span class="octotree-patch">+1</span>'
+           * 'src/adapters/' + 'github.js<span class="treepanel-patch">+1</span>'
            *
            */
           onlyChild.text = path + '/' + onlyChild.text

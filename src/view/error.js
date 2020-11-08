@@ -1,11 +1,11 @@
 class ErrorView {
   constructor($dom) {
     this.$this = $(this)
-    this.$view = $dom.find('.octotree-error-view')
+    this.$view = $dom.find('.treepanel-error-view')
   }
 
   show(err) {
-    this.$view.find('.octotree-view-header').html(err.error)
+    this.$view.find('.treepanel-view-header').html(err.error)
     this.$view.find('.message').html(err.message)
     this.$view.find('.settings-btn').click((event) => {
       event.preventDefault()

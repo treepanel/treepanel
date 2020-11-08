@@ -2,15 +2,15 @@ class OptionsView {
   constructor($dom, adapter) {
     this.adapter = adapter
     this.$toggler = $dom
-      .find('.octotree-settings')
+      .find('.treepanel-settings')
       .click(this.toggle.bind(this))
-    this.$view = $dom.find('.octotree-settings-view').submit((event) => {
+    this.$view = $dom.find('.treepanel-settings-view').submit((event) => {
       event.preventDefault()
       this.toggle(false)
     })
 
     this.$view
-      .find('a.octotree-create-token')
+      .find('a.treepanel-create-token')
       .attr('href', this.adapter.getCreateTokenUrl())
 
     this.loadElements()

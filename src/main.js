@@ -1,15 +1,15 @@
 $(document).ready(() => {
-  octotree.load(loadExtension)
+  treepanel.load(loadExtension)
 
   async function loadExtension(activationOpts = {}) {
     const $html = $('html')
     const $document = $(document)
     const $dom = $(TEMPLATE)
-    const $sidebar = $dom.find('.octotree-sidebar')
-    const $toggler = $sidebar.find('.octotree-toggle').hide()
-    const $views = $sidebar.find('.octotree-view')
-    const $spinner = $sidebar.find('.octotree-spin')
-    const $pinner = $sidebar.find('.octotree-pin')
+    const $sidebar = $dom.find('.treepanel-sidebar')
+    const $toggler = $sidebar.find('.treepanel-toggle').hide()
+    const $views = $sidebar.find('.treepanel-view')
+    const $spinner = $sidebar.find('.treepanel-spin')
+    const $pinner = $sidebar.find('.treepanel-pin')
     const adapter = new GitHub()
     const treeView = new TreeView($dom, adapter)
     const optsView = new OptionsView($dom, adapter)
@@ -60,8 +60,8 @@ $(document).ready(() => {
     $(extStore).on(EVENT.STORE_CHANGE, optionsChanged)
 
     $document
-      .on(EVENT.REQ_START, () => $spinner.addClass('octotree-spin--loading'))
-      .on(EVENT.REQ_END, () => $spinner.removeClass('octotree-spin--loading'))
+      .on(EVENT.REQ_START, () => $spinner.addClass('treepanel-spin--loading'))
+      .on(EVENT.REQ_END, () => $spinner.removeClass('treepanel-spin--loading'))
       .on(EVENT.LAYOUT_CHANGE, layoutChanged)
       .on(EVENT.TOGGLE_PIN, layoutChanged)
       .on(EVENT.LOC_CHANGE, (event, reload = false) => tryLoadRepo(reload))
@@ -77,7 +77,7 @@ $(document).ready(() => {
     adapter.init($sidebar)
     await helpPopup.init()
 
-    await octotree.activate(
+    await treepanel.activate(
       {
         adapter,
         $document,
@@ -126,7 +126,7 @@ $(document).ready(() => {
         }
       })
 
-      if (await octotree.applyOptions(changes)) {
+      if (await treepanel.applyOptions(changes)) {
         reload = true
       }
 
@@ -136,7 +136,7 @@ $(document).ready(() => {
     }
 
     async function tryLoadRepo(reload) {
-      const token = await octotree.getAccessToken()
+      const token = await treepanel.getAccessToken()
       await adapter.getRepoFromPath(currRepo, token, async (err, repo) => {
         if (err) {
           // Error making API, likely private repo but no token

@@ -43,7 +43,7 @@ class GitHub extends PjaxAdapter {
 
   // @override
   getCssClass() {
-    return 'octotree-github-sidebar'
+    return 'treepanel-github-sidebar'
   }
 
   // @override
@@ -73,7 +73,7 @@ class GitHub extends PjaxAdapter {
   getCreateTokenUrl() {
     return (
       `${location.protocol}//${location.host}/settings/tokens/new?` +
-      'scopes=repo&description=Octotree%20browser%20extension'
+      'scopes=repo&description=TreePanel%20browser%20extension'
     )
   }
 
@@ -105,7 +105,7 @@ class GitHub extends PjaxAdapter {
 
   // @override
   async getRepoFromPath(currentRepo, token, cb) {
-    if (!(await octotree.shouldShowOctotree())) {
+    if (!(await treepanel.shouldShowTreePanel())) {
       return cb()
     }
 
