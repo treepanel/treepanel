@@ -282,11 +282,7 @@ class GitHub extends PjaxAdapter {
 
           // Aggregate metadata for ancestor folders
           split.reduce((path, curr) => {
-            if (path.length) {
-              path = `${path}/${curr}`
-            } else {
-              path = `${curr}`
-            }
+            path = path.length ? `${path}/${curr}` : `${curr}`
 
             if (diffMap[path] == null) {
               diffMap[path] = {

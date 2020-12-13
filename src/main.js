@@ -148,11 +148,7 @@ $(document).ready(() => {
           if ((await extStore.get(STORE.PINNED)) && !isSidebarVisible()) {
             // If we're in pin mode but sidebar doesn't show yet, show it.
             // Note if we're from another page back to code page, sidebar is "pinned", but not visible.
-            if (isSidebarPinned()) {
-              await toggleSidebar()
-            } else {
-              await onPinToggled(true)
-            }
+            await (isSidebarPinned() ? toggleSidebar() : onPinToggled(true))
           } else if (isSidebarVisible()) {
             const replacer = ['username', 'reponame', 'branch', 'pullNumber']
             const repoChanged =
