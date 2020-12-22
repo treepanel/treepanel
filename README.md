@@ -11,4 +11,5 @@ open issues on this repo for current status.
 Browser extension that enhances GitHub code review and exploration. This
 repository contains the source code of a FOSS continuation of Octotree.
 
-See issues for work that needs to be done.
+See issues for work that needs to be done, and see
+[CONTRIBUTING](./.github/CONTRIBUTING.md) for how to contribute.

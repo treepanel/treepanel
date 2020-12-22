@@ -63,7 +63,7 @@ class GitHub extends PjaxAdapter {
     const hugeRepos = await extStore.get(STORE.HUGE_REPOS)
     if (hugeRepos[key] && isValidTimeStamp(hugeRepos[key])) {
       // Update the last load time of the repo
-      hugeRepos[key] = new Date().getTime()
+      hugeRepos[key] = Date.now()
       await extStore.set(STORE.HUGE_REPOS, hugeRepos)
     }
     return !hugeRepos[key]
@@ -379,7 +379,7 @@ class GitHub extends PjaxAdapter {
                   )
                   delete hugeRepos[oldestRepo]
                 }
-                hugeRepos[repo] = new Date().getTime()
+                hugeRepos[repo] = Date.now()
                 await extStore.set(STORE.HUGE_REPOS, hugeRepos)
               }
             } catch {

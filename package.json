@@ -25,8 +25,8 @@
   },
   "devDependencies": {
     "crx": "5.0.1",
-    "eslint": "7.15.0",
-    "eslint-plugin-zacanger": "2.2.1",
+    "eslint": "7.16.0",
+    "eslint-plugin-zacanger": "2.2.2",
     "event-stream": "4.0.1",
     "gulp": "4.0.2",
     "gulp-autoprefixer": "7.0.1",
